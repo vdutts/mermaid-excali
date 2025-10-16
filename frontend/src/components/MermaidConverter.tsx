@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import type { ExcalidrawAPIRefValue } from "@excalidraw/excalidraw"
 import { convertMermaidToExcalidraw } from "../utils/mermaidConverter"
 import "../styles/MermaidConverter.css"
@@ -10,11 +10,11 @@ interface MermaidConverterProps {
 }
 
 const EXAMPLE_MERMAID = `graph TD
-    A[Start]  B{Decision}
-    B |Yes| C[Process A]
-    B |No| D[Process B]
-    C  E[End]
-    D  E`
+    A[Start] --> B{Decision}
+    B -->|Yes| C[Process A]
+    B -->|No| D[Process B]
+    C --> E[End]
+    D --> E`
 
 export default function MermaidConverter({ excalidrawAPI }: MermaidConverterProps) {
   const [mermaidCode, setMermaidCode] = useState<string>(EXAMPLE_MERMAID)
@@ -22,18 +22,7 @@ export default function MermaidConverter({ excalidrawAPI }: MermaidConverterProp
   const [error, setError] = useState<string>("")
   const [success, setSuccess] = useState<string>("")
 
-  // Auto-convert on input change
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (mermaidCode.trim()) {
-        handleConvert()
-      }
-    }, 500)
-
-    return () => clearTimeout(timer)
-  }, [mermaidCode])
-
-  const handleConvert = async () => {
+  const handleConvert = useCallback(async () => {
     if (!excalidrawAPI) {
       setError("Excalidraw API not available")
       return
@@ -49,7 +38,11 @@ export default function MermaidConverter({ excalidrawAPI }: MermaidConverterProp
     setSuccess("")
 
     try {
-      const elements = await convertMermaidToExcalidraw(mermaidCode)
+      // Add minimum delay to show feedback
+      const [elements] = await Promise.all([
+        convertMermaidToExcalidraw(mermaidCode),
+        new Promise(resolve => setTimeout(resolve, 800))
+      ])
 
       if (elements.length === 0) {
         setError("No elements generated from Mermaid code")
@@ -63,6 +56,14 @@ export default function MermaidConverter({ excalidrawAPI }: MermaidConverterProp
         captureUpdate: false,
       })
 
+      // Zoom to fit all elements
+      setTimeout(() => {
+        excalidrawAPI.scrollToContent(elements, {
+          fitToContent: true,
+          animate: true,
+        })
+      }, 100)
+
       setSuccess(`✓ Converted ${elements.length} elements`)
       setTimeout(() => setSuccess(""), 3000)
     } catch (err) {
@@ -71,22 +72,30 @@ export default function MermaidConverter({ excalidrawAPI }: MermaidConverterProp
     } finally {
       setIsConverting(false)
     }
-  }
+  }, [excalidrawAPI, mermaidCode])
+
+  // Auto-convert on initial load when API is ready
+  useEffect(() => {
+    if (excalidrawAPI && mermaidCode.trim()) {
+      handleConvert()
+    }
+  }, [excalidrawAPI])
+
+  // Auto-convert on input change (only if API is ready)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (mermaidCode.trim() && excalidrawAPI) {
+        handleConvert()
+      }
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [mermaidCode])
 
   const handleClear = () => {
     setMermaidCode("")
     setError("")
     setSuccess("")
-  }
-
-  const handleLoadExample = () => {
-    setMermaidCode(EXAMPLE_MERMAID)
-  }
-
-  const handleCopyCode = () => {
-    navigator.clipboard.writeText(mermaidCode)
-    setSuccess("✓ Copied to clipboard")
-    setTimeout(() => setSuccess(""), 2000)
   }
 
   return (
@@ -99,6 +108,18 @@ export default function MermaidConverter({ excalidrawAPI }: MermaidConverterProp
     A[Start] --> B[End]"
         spellCheck="false"
       />
+
+      {success && (
+        <div className="status-message success-message">
+          {success}
+        </div>
+      )}
+
+      {error && (
+        <div className="status-message error-message">
+          {error}
+        </div>
+      )}
 
       <div className="converter-actions">
         <button className="btn-secondary" onClick={handleClear}>

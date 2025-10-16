@@ -74,6 +74,29 @@
   background: #fafafa;
 }
 
+.status-message {
+  margin: 0 20px 12px 20px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.success-message {
+  background: #d1f4e0;
+  color: #0d6832;
+  border: 1px solid #a8e6c1;
+}
+
+.error-message {
+  background: #ffd7d7;
+  color: #c41e3a;
+  border: 1px solid #ffb3b3;
+}
+
 .converter-actions {
   display: flex;
   gap: 10px;
