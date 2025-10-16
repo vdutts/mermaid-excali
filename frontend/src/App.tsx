@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import {
   Excalidraw,
   convertToExcalidrawElements,
@@ -121,6 +121,8 @@ function App(): React.JSX.Element {
   const [syncStatus, setSyncStatus] = useState<SyncStatus>("idle")
   const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null)
   const [showMermaidPanel, setShowMermaidPanel] = useState<boolean>(true)
+  const [leftPanelWidth, setLeftPanelWidth] = useState(50)
+  const isDragging = useRef(false)
 
   // Load existing elements when Excalidraw API becomes available
   useEffect(() => {
@@ -242,55 +244,58 @@ function App(): React.JSX.Element {
     }
   }
 
+  const handleMouseDown = () => {
+    isDragging.current = true
+  }
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging.current) return
+    const newWidth = (e.clientX / window.innerWidth) * 100
+    if (newWidth > 20 && newWidth < 80) {
+      setLeftPanelWidth(newWidth)
+    }
+  }
+
+  const handleMouseUp = () => {
+    isDragging.current = false
+  }
+
+  useEffect(() => {
+    document.addEventListener("mousemove", handleMouseMove)
+    document.addEventListener("mouseup", handleMouseUp)
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove)
+      document.removeEventListener("mouseup", handleMouseUp)
+    }
+  }, [])
+
   return (
     <div className="app">
-      {/* Header */}
-      <div className="header">
-        <h1>Mermaid to Excalidraw Converter</h1>
-        <div className="controls">
-          {/* Sync Controls */}
-          <div className="sync-controls">
-            <button
-              className={`btn-primary ${syncStatus === "syncing" ? "btn-loading" : ""}`}
-              onClick={syncToBackend}
-              disabled={syncStatus === "syncing" || !excalidrawAPI}
-            >
-              {syncStatus === "syncing" && <span className="spinner"></span>}
-              {syncStatus === "syncing" ? "Syncing..." : "Sync to Backend"}
-            </button>
-
-            {/* Sync Status */}
-            <div className="sync-status">
-              {syncStatus === "success" && <span className="sync-success">✅ Synced</span>}
-              {syncStatus === "error" && <span className="sync-error">❌ Sync Failed</span>}
-              {lastSyncTime && syncStatus === "idle" && (
-                <span className="sync-time">Last sync: {formatSyncTime(lastSyncTime)}</span>
-              )}
-            </div>
-          </div>
-
-          <button className="btn-secondary" onClick={() => setShowMermaidPanel(!showMermaidPanel)}>
-            {showMermaidPanel ? "Hide" : "Show"} Mermaid
-          </button>
-
-          <button className="btn-secondary" onClick={clearCanvas}>
-            Clear Canvas
-          </button>
-        </div>
-      </div>
-
       <div className="main-container">
-        {showMermaidPanel && <MermaidConverter excalidrawAPI={excalidrawAPI} />}
+        <div className="mermaid-converter" style={{ width: `${leftPanelWidth}%` }}>
+          <MermaidConverter excalidrawAPI={excalidrawAPI} />
+        </div>
 
-        {/* Canvas Container */}
-        <div className={`canvas-container ${showMermaidPanel ? "with-panel" : "full-width"}`}>
+        <div 
+          className="resize-handle" 
+          style={{ left: `${leftPanelWidth}%` }}
+          onMouseDown={handleMouseDown}
+        >
+          <div className="resize-handle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 8L22 12L18 16M6 8L2 12L6 16" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="canvas-container with-panel" style={{ width: `${100 - leftPanelWidth}%` }}>
           <Excalidraw
             excalidrawAPI={(api: ExcalidrawAPIRefValue) => setExcalidrawAPI(api)}
             initialData={{
               elements: [],
               appState: {
                 theme: "light",
-                viewBackgroundColor: "#ffffff",
+                viewBackgroundColor: "#fafafa",
               },
             }}
           />
