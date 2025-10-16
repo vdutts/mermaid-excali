@@ -19,7 +19,7 @@ import {
   type BatchCreatedMessage,
   type SyncStatusMessage,
   type InitialElementsMessage,
-} from "./types.ts"
+} from "./types"
 import { z } from "zod"
 import WebSocket from "ws"
 
