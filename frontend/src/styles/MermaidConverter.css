@@ -82,64 +82,52 @@
 }
 
 .btn-convert {
-  flex: 1;
-  background-color: #007aff;
+  flex: 2;
+  background: #007aff;
   color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
+  padding: 11px 20px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
-  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: -0.02em;
+}
+
+.btn-convert svg {
+  width: 17px;
+  height: 17px;
+}
+
+.btn-convert:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+}
+
+.converter-actions .btn-secondary {
+  flex: 1;
+  padding: 11px 16px;
+  background-color: #f2f2f7;
+  color: #1c1c1e;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.02em;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  letter-spacing: -0.01em;
 }
 
-.btn-convert svg {
+.converter-actions .btn-secondary svg {
   width: 16px;
   height: 16px;
-}
-
-.btn-convert:hover:not(:disabled) {
-  background-color: #0051d5;
-  transform: translateY(-1px);
-}
-
-.btn-convert:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.btn-convert:disabled {
-  background-color: #c7c7cc;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.converter-actions .btn-secondary {
-  flex: 0.8;
-  padding: 10px 16px;
-  background-color: #f2f2f7;
-  color: #1c1c1e;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 14px;
-  transition: all 0.15s ease;
-  letter-spacing: -0.01em;
-}
-
-.converter-actions .btn-secondary:hover {
-  background-color: #e5e5ea;
-  transform: translateY(-1px);
-}
-
-.converter-actions .btn-secondary:active {
-  transform: translateY(0);
 }
 
 .message {
