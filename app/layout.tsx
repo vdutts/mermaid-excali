@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import './app.css'
+import '../frontend/src/App.css'
+import '../frontend/src/styles/MermaidConverter.css'
 
 export const metadata: Metadata = {
   title: 'Mermaid to Excali',
