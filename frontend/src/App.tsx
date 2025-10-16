@@ -178,7 +178,7 @@ function App(): React.JSX.Element {
       console.log(`Syncing ${currentElements.length} elements to backend`)
 
       // 2. Filter out deleted elements
-      const activeElements = currentElements.filter((el) => !el.isDeleted)
+      const activeElements = currentElements.filter((el: any) => !el.isDeleted)
 
       // 3. Convert to backend format
       const backendElements = activeElements.map(convertToBackendFormat)
