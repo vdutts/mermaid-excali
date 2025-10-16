@@ -2,10 +2,13 @@
 
 import type React from "react"
 import { useState, useEffect, useRef } from "react"
-import {
-  Excalidraw,
-  convertToExcalidrawElements,
-} from "@excalidraw/excalidraw"
+import dynamic from "next/dynamic"
+
+// Lazy load Excalidraw to avoid SSR issues
+const Excalidraw: any = dynamic(
+  async () => (await import("@excalidraw/excalidraw")).Excalidraw,
+  { ssr: false }
+)
 
 type ExcalidrawImperativeAPI = any
 type ExcalidrawElement = any
@@ -137,6 +140,8 @@ function App(): React.JSX.Element {
 
       if (result.success && result.elements && result.elements.length > 0) {
         const cleanedElements = result.elements.map(cleanElementForExcalidraw)
+        // Dynamically import convertToExcalidrawElements
+        const { convertToExcalidrawElements } = await import("@excalidraw/excalidraw")
         const convertedElements = convertToExcalidrawElements(cleanedElements as any, { regenerateIds: false })
         excalidrawAPI?.updateScene({ elements: convertedElements })
       }

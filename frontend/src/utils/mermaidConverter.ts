@@ -1,5 +1,3 @@
-import { parseMermaidToExcalidraw } from "@excalidraw/mermaid-to-excalidraw"
-
 // Helper function to ensure all elements have required properties
 function normalizeElement(element: any): any {
   const normalized = {
@@ -51,6 +49,9 @@ function normalizeElement(element: any): any {
 // Main conversion function using the official Excalidraw mermaid parser
 export async function convertMermaidToExcalidraw(mermaidCode: string): Promise<any[]> {
   try {
+    // Dynamically import to avoid SSR issues
+    const { parseMermaidToExcalidraw } = await import("@excalidraw/mermaid-to-excalidraw")
+    
     const { elements } = await parseMermaidToExcalidraw(mermaidCode, {
       themeVariables: {
         fontSize: "16px",
