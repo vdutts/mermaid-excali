@@ -107,14 +107,17 @@ export default function MermaidConverter({ excalidrawAPI }: MermaidConverterProp
 
   return (
     <>
-      <textarea
-        className="mermaid-input"
-        value={mermaidCode}
-        onChange={(e) => setMermaidCode(e.target.value)}
-        placeholder="graph TD
+      <div className="input-container">
+        <textarea
+          className="mermaid-input"
+          value={mermaidCode}
+          onChange={(e) => setMermaidCode(e.target.value)}
+          placeholder="graph TD
     A[Start] --> B[End]"
-        spellCheck="false"
-      />
+          spellCheck="false"
+        />
+        <div className="file-type-badge">mermaid</div>
+      </div>
 
       {success && (
         <div className="status-message success-message">
