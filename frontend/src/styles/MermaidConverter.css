@@ -1,7 +1,17 @@
 .mermaid-converter {
   width: 350px;
   height: 100%;
-  background: #f5ebe8;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      #f5ebe8,
+      #f5ebe8 10px,
+      #f8f0ed 10px,
+      #f8f0ed 20px
+    ),
+    radial-gradient(circle at 20% 50%, rgba(168, 90, 126, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(139, 90, 90, 0.02) 0%, transparent 50%);
+  background-blend-mode: overlay, normal, normal;
   border-right: 1px solid #c9a89a;
   display: flex;
   flex-direction: column;
