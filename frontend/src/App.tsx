@@ -6,9 +6,10 @@ import {
   Excalidraw,
   convertToExcalidrawElements,
   CaptureUpdateAction,
-  type ExcalidrawAPIRefValue,
-  type ExcalidrawElement,
 } from "@excalidraw/excalidraw"
+import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types"
+
+type ExcalidrawElement = any
 import MermaidConverter from "./components/MermaidConverter"
 import "./App.css"
 
@@ -114,7 +115,7 @@ const validateAndFixBindings = (elements: Partial<ExcalidrawElement>[]): Partial
 }
 
 function App(): React.JSX.Element {
-  const [excalidrawAPI, setExcalidrawAPI] = useState<ExcalidrawAPIRefValue | null>(null)
+  const [excalidrawAPI, setExcalidrawAPI] = useState<ExcalidrawImperativeAPI | null>(null)
 
   // Sync state management
   const [syncStatus, setSyncStatus] = useState<SyncStatus>("idle")
@@ -302,7 +303,7 @@ function App(): React.JSX.Element {
 
         <div className="canvas-container with-panel" style={{ width: `${100 - leftPanelWidth}%` }}>
           <Excalidraw
-            excalidrawAPI={(api: ExcalidrawAPIRefValue) => setExcalidrawAPI(api)}
+            excalidrawAPI={(api: ExcalidrawImperativeAPI) => setExcalidrawAPI(api)}
             initialData={{
               elements: [],
               appState: {

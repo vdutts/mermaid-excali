@@ -1,12 +1,12 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import type { ExcalidrawAPIRefValue } from "@excalidraw/excalidraw"
+import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types"
 import { convertMermaidToExcalidraw } from "../utils/mermaidConverter"
 import "../styles/MermaidConverter.css"
 
 interface MermaidConverterProps {
-  excalidrawAPI: ExcalidrawAPIRefValue | null
+  excalidrawAPI: ExcalidrawImperativeAPI | null
 }
 
 const EXAMPLE_MERMAID = `graph TD
