@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import {
   Excalidraw,
   convertToExcalidrawElements,
@@ -12,7 +12,6 @@ import {
 import "@excalidraw/excalidraw/index.css"
 import MermaidConverter from "./components/MermaidConverter"
 import "./App.css"
-import { WebSocket } from "ws" // Declare WebSocket here
 
 // Type definitions
 interface ServerElement {
@@ -44,15 +43,6 @@ interface ServerElement {
   locked?: boolean
 }
 
-interface WebSocketMessage {
-  type: string
-  element?: ServerElement
-  elements?: ServerElement[]
-  elementId?: string
-  count?: number
-  timestamp?: string
-  source?: string
-}
 
 interface ApiResponse {
   success: boolean
@@ -126,35 +116,18 @@ const validateAndFixBindings = (elements: Partial<ExcalidrawElement>[]): Partial
 
 function App(): React.JSX.Element {
   const [excalidrawAPI, setExcalidrawAPI] = useState<ExcalidrawAPIRefValue | null>(null)
-  const [isConnected, setIsConnected] = useState<boolean>(false)
-  const websocketRef = useRef<WebSocket | null>(null)
 
   // Sync state management
   const [syncStatus, setSyncStatus] = useState<SyncStatus>("idle")
   const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null)
   const [showMermaidPanel, setShowMermaidPanel] = useState<boolean>(true)
 
-  // WebSocket connection
-  useEffect(() => {
-    connectWebSocket()
-    return () => {
-      if (websocketRef.current) {
-        websocketRef.current.close()
-      }
-    }
-  }, [])
-
   // Load existing elements when Excalidraw API becomes available
   useEffect(() => {
     if (excalidrawAPI) {
       loadExistingElements()
-
-      // Ensure WebSocket is connected for real-time updates
-      if (!isConnected) {
-        connectWebSocket()
-      }
     }
-  }, [excalidrawAPI, isConnected])
+  }, [excalidrawAPI])
 
   const loadExistingElements = async (): Promise<void> => {
     try {
@@ -168,135 +141,6 @@ function App(): React.JSX.Element {
       }
     } catch (error) {
       console.error("Error loading existing elements:", error)
-    }
-  }
-
-  const connectWebSocket = (): void => {
-    if (websocketRef.current && websocketRef.current.readyState === WebSocket.OPEN) {
-      return
-    }
-
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:"
-    const wsUrl = `${protocol}//${window.location.host}`
-
-    websocketRef.current = new WebSocket(wsUrl)
-
-    websocketRef.current.onopen = () => {
-      setIsConnected(true)
-
-      if (excalidrawAPI) {
-        setTimeout(loadExistingElements, 100)
-      }
-    }
-
-    websocketRef.current.onmessage = (event: MessageEvent) => {
-      try {
-        const data: WebSocketMessage = JSON.parse(event.data)
-        handleWebSocketMessage(data)
-      } catch (error) {
-        console.error("Error parsing WebSocket message:", error, event.data)
-      }
-    }
-
-    websocketRef.current.onclose = (event: CloseEvent) => {
-      setIsConnected(false)
-
-      // Reconnect after 3 seconds if not a clean close
-      if (event.code !== 1000) {
-        setTimeout(connectWebSocket, 3000)
-      }
-    }
-
-    websocketRef.current.onerror = (error: Event) => {
-      console.error("WebSocket error:", error)
-      setIsConnected(false)
-    }
-  }
-
-  const handleWebSocketMessage = (data: WebSocketMessage): void => {
-    if (!excalidrawAPI) {
-      return
-    }
-
-    try {
-      const currentElements = excalidrawAPI.getSceneElements()
-      console.log("Current elements:", currentElements)
-
-      switch (data.type) {
-        case "initial_elements":
-          if (data.elements && data.elements.length > 0) {
-            const cleanedElements = data.elements.map(cleanElementForExcalidraw)
-            const validatedElements = validateAndFixBindings(cleanedElements)
-            const convertedElements = convertToExcalidrawElements(validatedElements)
-            excalidrawAPI.updateScene({
-              elements: convertedElements,
-              captureUpdate: CaptureUpdateAction.NEVER,
-            })
-          }
-          break
-
-        case "element_created":
-          if (data.element) {
-            const cleanedNewElement = cleanElementForExcalidraw(data.element)
-            const newElement = convertToExcalidrawElements([cleanedNewElement])
-            const updatedElementsAfterCreate = [...currentElements, ...newElement]
-            excalidrawAPI.updateScene({
-              elements: updatedElementsAfterCreate,
-              captureUpdate: CaptureUpdateAction.NEVER,
-            })
-          }
-          break
-
-        case "element_updated":
-          if (data.element) {
-            const cleanedUpdatedElement = cleanElementForExcalidraw(data.element)
-            const convertedUpdatedElement = convertToExcalidrawElements([cleanedUpdatedElement])[0]
-            const updatedElements = currentElements.map((el) =>
-              el.id === data.element!.id ? convertedUpdatedElement : el,
-            )
-            excalidrawAPI.updateScene({
-              elements: updatedElements,
-              captureUpdate: CaptureUpdateAction.NEVER,
-            })
-          }
-          break
-
-        case "element_deleted":
-          if (data.elementId) {
-            const filteredElements = currentElements.filter((el) => el.id !== data.elementId)
-            excalidrawAPI.updateScene({
-              elements: filteredElements,
-              captureUpdate: CaptureUpdateAction.NEVER,
-            })
-          }
-          break
-
-        case "elements_batch_created":
-          if (data.elements) {
-            const cleanedBatchElements = data.elements.map(cleanElementForExcalidraw)
-            const batchElements = convertToExcalidrawElements(cleanedBatchElements)
-            const updatedElementsAfterBatch = [...currentElements, ...batchElements]
-            excalidrawAPI.updateScene({
-              elements: updatedElementsAfterBatch,
-              captureUpdate: CaptureUpdateAction.NEVER,
-            })
-          }
-          break
-
-        case "elements_synced":
-          console.log(`Sync confirmed by server: ${data.count} elements`)
-          // Sync confirmation already handled by HTTP response
-          break
-
-        case "sync_status":
-          console.log(`Server sync status: ${data.count} elements`)
-          break
-
-        default:
-          console.log("Unknown WebSocket message type:", data.type)
-      }
-    } catch (error) {
-      console.error("Error processing WebSocket message:", error, data)
     }
   }
 
@@ -404,11 +248,6 @@ function App(): React.JSX.Element {
       <div className="header">
         <h1>Mermaid to Excalidraw Converter</h1>
         <div className="controls">
-          <div className="status">
-            <div className={`status-dot ${isConnected ? "status-connected" : "status-disconnected"}`}></div>
-            <span>{isConnected ? "Connected" : "Disconnected"}</span>
-          </div>
-
           {/* Sync Controls */}
           <div className="sync-controls">
             <button

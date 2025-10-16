@@ -9,6 +9,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  transpilePackages: ['@excalidraw/excalidraw'],
+  serverExternalPackages: [],
 }
 
 export default nextConfig
