@@ -138,7 +138,7 @@ function App(): React.JSX.Element {
 
       if (result.success && result.elements && result.elements.length > 0) {
         const cleanedElements = result.elements.map(cleanElementForExcalidraw)
-        const convertedElements = convertToExcalidrawElements(cleanedElements, { regenerateIds: false })
+        const convertedElements = convertToExcalidrawElements(cleanedElements as any, { regenerateIds: false })
         excalidrawAPI?.updateScene({ elements: convertedElements })
       }
     } catch (error) {
