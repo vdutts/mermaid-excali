@@ -2,24 +2,24 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #fafafa;
+  background-color: #f5ebe8;
 }
 
 .header {
-  background: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #8b5a5a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 10px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #6d4444;
 }
 
 .header h1 {
   margin: 0;
-  color: #1f2937;
+  color: #f5ebe8;
   font-size: 24px;
   font-weight: 600;
 }
@@ -42,12 +42,12 @@ button {
 }
 
 .btn-primary {
-  background-color: #3b82f6;
+  background-color: #a85a7e;
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #2563eb;
+  background-color: #8b4a68;
 }
 
 .btn-primary:disabled {
@@ -56,12 +56,12 @@ button {
 }
 
 .btn-secondary {
-  background-color: #6c757d;
+  background-color: #7a5a5a;
   color: white;
 }
 
 .btn-secondary:hover {
-  background-color: #545b62;
+  background-color: #5f4444;
 }
 
 .status {
@@ -140,7 +140,7 @@ button {
 .canvas-container {
   flex: 1;
   position: relative;
-  background: white;
+  background: #fdf8f6;
 }
 
 .canvas-container.with-panel {
@@ -166,11 +166,11 @@ button {
 }
 
 .resize-handle:hover {
-  background-color: rgba(0, 122, 255, 0.1);
+  background-color: rgba(168, 90, 126, 0.1);
 }
 
 .resize-handle:active {
-  background-color: rgba(0, 122, 255, 0.15);
+  background-color: rgba(168, 90, 126, 0.15);
 }
 
 .resize-handle-icon {
@@ -179,8 +179,8 @@ button {
   justify-content: center;
   padding: 8px;
   border-radius: 6px;
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: #fdf8f6;
+  border: 1px solid #d4b5a8;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   opacity: 0;
   transition: opacity 0.15s ease;
@@ -204,12 +204,12 @@ button {
   display: flex;
   gap: 8px;
   padding: 8px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(139, 90, 90, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(109, 68, 68, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
 .social-island-link {
@@ -219,7 +219,7 @@ button {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  color: #6b7280;
+  color: #f5ebe8;
   text-decoration: none;
   transition: all 0.15s ease;
 }
@@ -230,8 +230,8 @@ button {
 }
 
 .social-island-link:hover {
-  color: #1f2937;
-  background: rgba(0, 0, 0, 0.05);
+  color: #ffffff;
+  background: rgba(168, 90, 126, 0.3);
 }
 
 .social-island-link:active {

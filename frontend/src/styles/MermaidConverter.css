@@ -1,8 +1,8 @@
 .mermaid-converter {
   width: 350px;
   height: 100%;
-  background: #fafafa;
-  border-right: 1px solid #d1d5db;
+  background: #f5ebe8;
+  border-right: 1px solid #c9a89a;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -10,20 +10,21 @@
 
 .converter-header {
   padding: 20px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #d4b5a8;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  background: white;
+  background: #8b5a5a;
 }
 
 .converter-header h2 {
   margin: 0;
   font-size: 17px;
-  font-weight: 600;
-  color: #1f2937;
-  letter-spacing: -0.022em;
+  font-weight: 500;
+  color: #f5ebe8;
+  letter-spacing: 0.01em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 
 .header-actions {
@@ -41,37 +42,42 @@
 }
 
 .btn-info {
-  background-color: #06b6d4;
+  background-color: #a85a7e;
   color: white;
 }
 
 .btn-info:hover {
-  background-color: #0891b2;
+  background-color: #8b4a68;
 }
 
 .mermaid-input {
   flex: 1;
-  padding: 20px;
+  padding: 24px;
   border: none;
-  font-family: "SF Mono", "Monaco", "Menlo", "Consolas", "Ubuntu Mono", monospace;
-  font-size: 13px;
-  line-height: 1.6;
+  font-family: "Geist Mono", "Berkeley Mono", "JetBrains Mono", "Fira Code", "SF Mono", "Monaco", monospace;
+  font-size: 14px;
+  line-height: 1.8;
   resize: none;
   overflow-y: auto;
-  color: #1f2937;
-  background: #fafafa;
+  color: #5a3a3a;
+  background: #f5ebe8;
   white-space: pre;
   overflow-wrap: normal;
   word-break: normal;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  font-variant-ligatures: common-ligatures;
 }
 
 .mermaid-input::placeholder {
-  color: #9ca3af;
+  color: #b89a8a;
+  font-style: italic;
+  font-weight: 300;
 }
 
 .mermaid-input:focus {
   outline: none;
-  background: #fafafa;
+  background: #f5ebe8;
 }
 
 .status-message {
@@ -101,26 +107,34 @@
   display: flex;
   gap: 10px;
   padding: 16px 20px 20px 20px;
-  background: #fafafa;
+  background: #f5ebe8;
 }
 
 .btn-convert {
   flex: 2;
-  background: #007aff;
+  background: #a85a7e;
   color: white;
-  padding: 11px 20px;
-  border-radius: 10px;
+  padding: 12px 20px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.01em;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(168, 90, 126, 0.2);
+}
+
+.btn-convert:hover:not(:disabled) {
+  background: #8b4a68;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(168, 90, 126, 0.3);
 }
 
 .btn-convert .btn-content {
@@ -137,11 +151,11 @@
 }
 
 .btn-convert:active:not(:disabled) {
-  background: #0051d5;
+  background: #7a3d5a;
 }
 
 .btn-convert:disabled {
-  background: #d1d5db;
+  background: #c9a89a;
   cursor: not-allowed;
 }
 
@@ -157,19 +171,20 @@
 
 .converter-actions .btn-secondary {
   flex: 1;
-  padding: 11px 16px;
-  background-color: #f2f2f7;
-  color: #1c1c1e;
-  border-radius: 10px;
+  padding: 12px 16px;
+  background-color: #e8d5cc;
+  color: #5a3a3a;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.01em;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
+  transition: all 0.2s ease;
 }
 
 .converter-actions .btn-secondary svg {
@@ -229,7 +244,7 @@
 }
 
 .btn-convert.converting {
-  background: #34c759;
+  background: #a85a7e;
   pointer-events: none;
 }
 
@@ -238,7 +253,7 @@
 }
 
 .converter-actions .btn-secondary:active {
-  background-color: #e5e5ea;
+  background-color: #d4b5a8;
 }
 
 @keyframes spin {

@@ -79,6 +79,7 @@
     "tsx": "latest",
     "url": "latest",
     "utf-8-validate": "latest",
+    "vaul": "^1.1.1",
     "vite": "latest",
     "winston": "latest",
     "ws": "latest",
