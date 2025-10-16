@@ -9,7 +9,6 @@ import {
   type ExcalidrawAPIRefValue,
   type ExcalidrawElement,
 } from "@excalidraw/excalidraw"
-import "@excalidraw/excalidraw/index.css"
 import MermaidConverter from "./components/MermaidConverter"
 import "./App.css"
 

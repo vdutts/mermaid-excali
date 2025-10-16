@@ -1,16 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
+  reactStrictMode: false,
+  swcMinify: true,
+  experimental: {
+    forceSwcTransforms: true,
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  images: {
-    unoptimized: true,
-  },
-  transpilePackages: ['@excalidraw/excalidraw'],
-  serverExternalPackages: [],
 }
 
 export default nextConfig

@@ -1,30 +1,81 @@
-# mcpexcalidrawmain
+# Mermaid to Excalidraw Converter
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+Convert Mermaid diagrams to Excalidraw format with live preview.
 
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/misty-emaners-projects/mermaid2excali)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/8truNLuyHNq)
 
-## Overview
+## 🚀 Quick Start
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+### Development
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-## Deployment
+### Production Build
+```bash
+cd frontend
+npm install
+npm run build
+npm run preview  # Test production build locally
+```
 
-Your project is live at:
+## 📦 Deployment
 
-**[https://vercel.com/misty-emaners-projects/mermaid2excali](https://vercel.com/misty-emaners-projects/mermaid2excali)**
+**IMPORTANT:** Package versions are locked to exact versions to prevent breaking changes.
 
-## Build your app
+### Deploy to Vercel
+1. Build the frontend: `cd frontend && npm run build`
+2. Deploy the `frontend/dist` directory to Vercel
+3. Verify Mermaid diagrams render correctly
 
-Continue building your app on:
+### Deploy Script
+Use the provided deployment script for consistent builds:
 
-**[https://v0.app/chat/projects/8truNLuyHNq](https://v0.app/chat/projects/8truNLuyHNq)**
+```bash
+chmod +x deploy.sh
+./deploy.sh
+```
 
-## How It Works
+## 🔒 Version Locking
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+All dependencies use exact versions (no `^` or `~`):
+- `@excalidraw/excalidraw`: `0.17.3`
+- `@excalidraw/mermaid-to-excalidraw`: `1.1.3`
+- `react`: `18.2.0`
+- `react-dom`: `18.2.0`
+
+**DO NOT** run `npm update` without thorough testing.
+
+## 🐛 Critical Fix Applied
+
+See [PRODUCTION_NOTES.md](./PRODUCTION_NOTES.md) for details on the rendering fix that ensures Mermaid diagrams display correctly.
+
+## 📝 Project Structure
+
+```
+frontend/
+├── src/
+│   ├── components/
+│   │   └── MermaidConverter.tsx  # Main converter component
+│   ├── utils/
+│   │   └── mermaidConverter.ts   # Conversion logic with normalizeElement()
+│   └── App.tsx                    # Main app
+├── package.json                   # Locked dependencies
+└── dist/                          # Production build output
+```
+
+## 🔧 Troubleshooting
+
+If diagrams don't render:
+1. Check browser console for errors
+2. Verify `normalizeElement()` function exists in build
+3. Ensure exact package versions match `package.json`
+4. Clear browser cache
+
+## 📚 Documentation
+
+- [Production Notes](./PRODUCTION_NOTES.md) - Critical fix details
+- [Excalidraw Docs](https://docs.excalidraw.com/)
+- [Mermaid Docs](https://mermaid.js.org/)

@@ -9,6 +9,8 @@
 
 # production
 /build
+/frontend/dist
+/frontend/node_modules
 
 # debug
 npm-debug.log*

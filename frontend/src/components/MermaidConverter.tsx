@@ -53,16 +53,22 @@ export default function MermaidConverter({ excalidrawAPI }: MermaidConverterProp
       // Update Excalidraw canvas with converted elements
       excalidrawAPI.updateScene({
         elements: elements,
-        captureUpdate: false,
       })
 
-      // Zoom to fit all elements
+      // Zoom to fit all elements after a short delay
       setTimeout(() => {
-        excalidrawAPI.scrollToContent(elements, {
-          fitToContent: true,
-          animate: true,
-        })
-      }, 100)
+        try {
+          const sceneElements = excalidrawAPI.getSceneElements()
+          if (sceneElements && sceneElements.length > 0) {
+            excalidrawAPI.scrollToContent(sceneElements, {
+              fitToContent: true,
+              animate: false,
+            })
+          }
+        } catch (e) {
+          console.log('Zoom failed, elements still visible')
+        }
+      }, 300)
 
       setSuccess(`✓ Converted ${elements.length} elements`)
       setTimeout(() => setSuccess(""), 3000)
