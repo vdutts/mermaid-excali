@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from "react"
 import {
   Excalidraw,
   convertToExcalidrawElements,
-  CaptureUpdateAction,
 } from "@excalidraw/excalidraw"
 
 type ExcalidrawImperativeAPI = any
@@ -231,14 +230,12 @@ function App(): React.JSX.Element {
         // Clear the frontend canvas
         excalidrawAPI.updateScene({
           elements: [],
-          captureUpdate: CaptureUpdateAction.IMMEDIATELY,
         })
       } catch (error) {
         console.error("Error clearing canvas:", error)
         // Still clear frontend even if backend fails
         excalidrawAPI.updateScene({
           elements: [],
-          captureUpdate: CaptureUpdateAction.IMMEDIATELY,
         })
       }
     }
