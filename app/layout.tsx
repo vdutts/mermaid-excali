@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import './app.css'
+import '@excalidraw/excalidraw/index.css'
 import '../frontend/src/App.css'
 import '../frontend/src/styles/MermaidConverter.css'
 
