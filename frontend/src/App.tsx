@@ -7,8 +7,8 @@ import {
   convertToExcalidrawElements,
   CaptureUpdateAction,
 } from "@excalidraw/excalidraw"
-import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types"
 
+type ExcalidrawImperativeAPI = any
 type ExcalidrawElement = any
 import MermaidConverter from "./components/MermaidConverter"
 import "./App.css"

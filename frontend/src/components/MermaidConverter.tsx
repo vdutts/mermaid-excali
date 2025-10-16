@@ -1,9 +1,10 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import type { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types/types"
 import { convertMermaidToExcalidraw } from "../utils/mermaidConverter"
 import "../styles/MermaidConverter.css"
+
+type ExcalidrawImperativeAPI = any
 
 interface MermaidConverterProps {
   excalidrawAPI: ExcalidrawImperativeAPI | null
