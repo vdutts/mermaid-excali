@@ -213,6 +213,13 @@
   transition: all 0.2s ease;
 }
 
+.converter-actions .btn-secondary:hover {
+  background-color: #dc3545;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
 .converter-actions .btn-secondary svg {
   width: 16px;
   height: 16px;
