@@ -4,6 +4,8 @@ Convert Mermaid diagrams to Excalidraw format with live preview.
 
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/misty-emaners-projects/mermaid2excali)
 
+<img width="1357" height="728" alt="Screenshot 2025-10-16 at 4 15 49 AM" src="https://github.com/user-attachments/assets/b51b1575-f711-4e6c-9240-cd317fdb9caf" />
+
 ## 🚀 Quick Start
 
 ### Development
