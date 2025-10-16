@@ -195,3 +195,45 @@ button {
   height: 16px;
   color: #6b7280;
 }
+
+.social-island {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02);
+}
+
+.social-island-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  color: #6b7280;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.social-island-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+.social-island-link:hover {
+  color: #1f2937;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.social-island-link:active {
+  transform: scale(0.95);
+}

@@ -60,6 +60,9 @@
   overflow-y: auto;
   color: #1f2937;
   background: #fafafa;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 .mermaid-input::placeholder {
@@ -189,45 +192,6 @@
 
 .converter-info li {
   margin: 4px 0;
-}
-
-.social-links {
-  display: flex;
-  gap: 8px;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e5e7eb;
-  background: white;
-}
-
-.social-link {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: #f2f2f7;
-  color: #1c1c1e;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 500;
-  transition: all 0.15s ease;
-  letter-spacing: -0.01em;
-}
-
-.social-link svg {
-  width: 16px;
-  height: 16px;
-}
-
-.social-link:hover {
-  background: #e5e5ea;
-  transform: translateY(-1px);
-}
-
-.social-link:active {
-  transform: translateY(0);
 }
 
 .btn-convert.converting {
